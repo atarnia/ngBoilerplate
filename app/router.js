@@ -10,6 +10,11 @@ angular.module('myApp').config(['$stateProvider', '$urlRouterProvider',
             url: '/hello',
             templateUrl: 'myModule/template.html',
             controller: 'MyController'
+        })
+        .state('helloWorldWithParams', {
+            url: '/hello/:name?param&param2',
+            templateUrl: 'myModule/template.html',
+            controller: 'MyController'
         });
 
 }]);
