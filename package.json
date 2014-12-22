@@ -1,0 +1,12 @@
+{
+  "name": "ngBoilerplate",
+  "description": "Atarnia ngBoilerplate - Angular project starter",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/postrational/ngboilerplate/"
+  },
+  "devDependencies": {
+    "gulp-angular-templatecache": "^1.5.0"
+  }
+}

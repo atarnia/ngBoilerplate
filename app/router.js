@@ -8,12 +8,12 @@ angular.module('myApp').config(['$stateProvider', '$urlRouterProvider',
     $stateProvider
         .state('helloWorld', {
             url: '/hello',
-            templateUrl: 'myModule/template.html',
+            templateUrl: 'myModule/template.tpl.html',
             controller: 'MyController'
         })
         .state('helloWorldWithParams', {
             url: '/hello/:name?param&param2',
-            templateUrl: 'myModule/template.html',
+            templateUrl: 'myModule/template.tpl.html',
             controller: 'MyController'
         });
 
