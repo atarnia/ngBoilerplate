@@ -1,7 +1,10 @@
 var gulp = require('gulp'),
+  del = require('del'),
   concat = require('gulp-concat'),
   uglify = require('gulp-uglify'),
   sourcemaps = require('gulp-sourcemaps'),
+  gulpTemplate = require('gulp-template'),
+  fileSort = require('gulp-angular-filesort');
   templateCache = require('gulp-angular-templatecache');
 
 var paths = {
@@ -13,9 +16,15 @@ var paths = {
     'bower_modules/angular/angular.min.js',
     'bower_modules/angular-ui-router/release/angular-ui-router.min.js',
   ],
-  tmp:   'tmp/',
-  build: 'build/'
+  indexHtml: 'app/index.html',
+  tmp:       'tmp/',
+  build:     'build/',
 };
+
+
+gulp.task('clean', function (cb) {
+  del([].concat(paths.tmp, paths.build), cb);
+});
 
 gulp.task('templates', function (cb) {
   return gulp.src(paths.appTemplates)
@@ -25,6 +34,7 @@ gulp.task('templates', function (cb) {
 
 gulp.task('scripts-app', ['templates'],  function() {
   return gulp.src([].concat(paths.tmp+'templates.js', paths.appScripts))
+    .pipe(fileSort())
     .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(concat('app.js'))
@@ -38,4 +48,17 @@ gulp.task('scripts-vendor', function() {
     .pipe(gulp.dest(paths.build));
 });
 
-gulp.task('default', ['scripts-app', 'scripts-vendor']);
+
+gulp.task('index', function() {
+  return gulp.src(paths.indexHtml)
+    .pipe(gulpTemplate({
+      vendorCss: 'vendor.css',
+      appCss: 'app.css',
+      vendorJs: 'vendor.js',
+      appJs: 'app.js',
+    }))
+    .pipe(gulp.dest(paths.build))
+});
+
+
+gulp.task('default', ['scripts-vendor', 'scripts-app', 'index']);
