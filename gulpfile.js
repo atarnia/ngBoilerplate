@@ -60,5 +60,9 @@ gulp.task('index', function() {
     .pipe(gulp.dest(paths.build))
 });
 
+gulp.task('watch', function(){
+	gulp.watch([].concat(paths.appScripts, paths.appTemplates), ['scripts-app']);
+	gulp.watch([].concat(paths.vendorScripts), ['scripts-vendor']);
+});
 
 gulp.task('default', ['scripts-vendor', 'scripts-app', 'index']);
