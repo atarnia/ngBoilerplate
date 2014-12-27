@@ -20,6 +20,7 @@ var paths = {
     vendorScripts: [
     // Specify minified versions of vendor scripts
         'bower_modules/jquery/dist/jquery.min.js',
+        'bower_modules/lodash/dist/lodash.min.js',
         'bower_modules/angular/angular.min.js',
         'bower_modules/angular-ui-router/release/angular-ui-router.min.js',
     ],
