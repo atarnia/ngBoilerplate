@@ -4,7 +4,7 @@ angular.module('myModule').controller('MyController', ['$scope', '$stateParams',
         $scope.params = $stateParams;
 
         if ($stateParams.name) {
-                $scope.hello = 'Hello ' + $stateParams.name;
+                $scope.hello = 'Hello ' + $stateParams.name + '!';
         }
 
 
