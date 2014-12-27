@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
+    sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
     gulpTemplate = require('gulp-template'),
     fileSort = require('gulp-angular-filesort'),
@@ -12,17 +13,19 @@ var gulp = require('gulp'),
     webserver = require('gulp-webserver');
 
 var paths = {
-  appScripts:    ['app/app.js', 'app/**/*.js'],
-  appTemplates:  ['app/**/*.tpl.html'],
-  vendorScripts: [
+    appScripts:    ['app/app.js', 'app/**/*.js'],
+    appTemplates:  ['app/**/*.tpl.html'],
+    appStyles:  ['app/styles/**/*.scss'],
+
+    vendorScripts: [
     // Specify minified versions of vendor scripts
-    'bower_modules/jquery/dist/jquery.min.js',
-    'bower_modules/angular/angular.min.js',
-    'bower_modules/angular-ui-router/release/angular-ui-router.min.js',
-  ],
-  indexHtml: 'app/index.html',
-  tmp:       'tmp/',
-  build:     'build/',
+        'bower_modules/jquery/dist/jquery.min.js',
+        'bower_modules/angular/angular.min.js',
+        'bower_modules/angular-ui-router/release/angular-ui-router.min.js',
+    ],
+    indexHtml: 'app/index.html',
+    tmp:       'tmp/',
+    build:     'build/',
 };
 
 // Clean the build and temp directories
@@ -63,22 +66,31 @@ gulp.task('scripts-vendor', function() {
 gulp.task('index', function() {
   return gulp.src(paths.indexHtml)
       .pipe(gulpTemplate({
-        vendorCss: 'vendor.css',
-        appCss: 'app.css',
+        vendorCss: 'styles/vendor.css',
+        appCss: 'styles/app.css',
         vendorJs: 'vendor.js',
         appJs: 'app.js',
       }))
       .pipe(gulp.dest(paths.build))
 });
 
+
+gulp.task('styles-app', function () {
+    gulp.src(paths.appStyles)
+        .pipe(sass())
+        .pipe(concat('styles/app.css'))
+        .pipe(gulp.dest(paths.build));
+});
+
 // Watch for file changes and execute appropriate tasks
 gulp.task('watch', function(){
   gulp.watch([].concat(paths.appScripts, paths.appTemplates), ['scripts-app']);
   gulp.watch([].concat(paths.vendorScripts), ['scripts-vendor']);
+  gulp.watch([].concat(paths.appStyles), ['styles-app']);
 });
 
 
-gulp.task('serve', function() {
+gulp.task('serve', ['build'], function() {
   gulp.src(path.resolve(paths.build))
       .pipe(webserver({
         port: 4200,
@@ -94,7 +106,7 @@ gulp.task('serve', function() {
 
 
 // Build application
-gulp.task('build', ['scripts-vendor', 'scripts-app', 'index']);
+gulp.task('build', ['scripts-vendor', 'scripts-app', 'styles-app', 'index']);
 
 // Gulp default task
-gulp.task('default', ['build']);
+gulp.task('default', ['serve', 'watch']);
