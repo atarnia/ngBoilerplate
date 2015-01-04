@@ -20,7 +20,7 @@ var paths = {
     appStyles:  ['app/styles/**/*.scss'],
 
     vendorScripts: [
-    // Specify minified versions of vendor scripts
+        // Specify minified versions of vendor scripts
         'bower_modules/jquery/dist/jquery.min.js',
         'bower_modules/lodash/dist/lodash.min.js',
         'bower_modules/angular/angular.min.js',
@@ -33,36 +33,36 @@ var paths = {
 
 // Clean the build and temp directories
 gulp.task('clean', function (cb) {
-  del([].concat(paths.tmp, paths.build), cb);
+    del([].concat(paths.tmp, paths.build), cb);
 });
 
 // Compile Angular templates into a JS module
 gulp.task('templates', function (cb) {
-  return gulp.src(paths.appTemplates)
-      .pipe(templateCache())
-      .pipe(wrap('angular.module("templates", []); <%= contents %>'))
-      .pipe(gulp.dest(paths.tmp));
+    return gulp.src(paths.appTemplates)
+        .pipe(templateCache())
+        .pipe(wrap('angular.module("templates", []); <%= contents %>'))
+        .pipe(gulp.dest(paths.tmp));
 });
 
 // Concatenate and minify all app scripts and templates into app.js
 gulp.task('scripts-app', ['templates'],  function() {
-  return gulp.src([].concat(paths.tmp+'templates.js', paths.appScripts))
-      .pipe(fileSort())
-      .pipe(jshint())
-      .pipe(jshint.reporter('jshint-stylish'))
-      .pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
-      .pipe(sourcemaps.init())
-      .pipe(uglify())
-      .pipe(concat('app.js'))
-      .pipe(sourcemaps.write('.'))
-      .pipe(gulp.dest(paths.build));
+    return gulp.src([].concat(paths.tmp+'templates.js', paths.appScripts))
+        .pipe(fileSort())
+        .pipe(jshint())
+        .pipe(jshint.reporter('jshint-stylish'))
+        .pipe(wrap('(function(){\n"use strict";\n<%= contents %>\n})();'))
+        .pipe(sourcemaps.init())
+        .pipe(uglify())
+        .pipe(concat('app.js'))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(paths.build));
 });
 
 // Concatenate all vendor scripts
 gulp.task('scripts-vendor', function() {
-  return gulp.src([].concat(paths.vendorScripts))
-      .pipe(concat('vendor.js'))
-      .pipe(gulp.dest(paths.build));
+    return gulp.src([].concat(paths.vendorScripts))
+        .pipe(concat('vendor.js'))
+        .pipe(gulp.dest(paths.build));
 });
 
 // Concatenate all Application styles
@@ -105,24 +105,24 @@ gulp.task('index', ['scripts-vendor', 'scripts-app', 'styles-app'], function() {
 
 // Watch for file changes and execute appropriate tasks
 gulp.task('watch', function(){
-  gulp.watch([].concat(paths.appScripts, paths.appTemplates), ['scripts-app']);
-  gulp.watch([].concat(paths.vendorScripts), ['scripts-vendor']);
-  gulp.watch([].concat(paths.appStyles), ['styles-app']);
+    gulp.watch([].concat(paths.appScripts, paths.appTemplates), ['scripts-app']);
+    gulp.watch([].concat(paths.vendorScripts), ['scripts-vendor']);
+    gulp.watch([].concat(paths.appStyles), ['styles-app']);
 });
 
 
+// Run development web server
 gulp.task('serve', ['build'], function() {
-  gulp.src(path.resolve(paths.build))
-      .pipe(webserver({
-        port: 4200,
-        livereload: true,
-        //directoryListing: true,
-        open: true,
-        proxies: [
-          {source: '/api', target: 'http://127.0.0.1:8000/api' },
-          {source: '/static', target: 'http://127.0.0.1:8000/static' }
-        ]
-      }));
+    gulp.src(path.resolve(paths.build))
+        .pipe(webserver({
+            port: 4200,
+            livereload: true,
+            open: true,
+            proxies: [
+                {source: '/api', target: 'http://127.0.0.1:8000/api' },
+                {source: '/static', target: 'http://127.0.0.1:8000/static' }
+            ]
+        }));
 });
 
 
