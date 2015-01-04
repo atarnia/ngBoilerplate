@@ -1,6 +1,8 @@
 var gulp = require('gulp'),
+    fs = require('fs'),
     path = require('path'),
     del = require('del'),
+    md5 = require('MD5'),
     wrap = require('gulp-wrap'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
@@ -63,25 +65,43 @@ gulp.task('scripts-vendor', function() {
       .pipe(gulp.dest(paths.build));
 });
 
-// Create index.html bootstrap file
-gulp.task('index', function() {
-  return gulp.src(paths.indexHtml)
-      .pipe(gulpTemplate({
-        vendorCss: 'styles/vendor.css',
-        appCss: 'styles/app.css',
-        vendorJs: 'vendor.js',
-        appJs: 'app.js',
-      }))
-      .pipe(gulp.dest(paths.build))
-});
-
-
+// Concatenate all Application styles
 gulp.task('styles-app', function () {
     gulp.src(paths.appStyles)
         .pipe(sass())
         .pipe(concat('styles/app.css'))
         .pipe(gulp.dest(paths.build));
 });
+
+
+// Create index.html bootstrap file
+gulp.task('index', ['scripts-vendor', 'scripts-app', 'styles-app'], function() {
+    function renameFile(filename) {
+        var path = paths.build+filename;
+        if (fs.existsSync(path)) {
+            var hash = md5(fs.readFileSync(path, 'utf8')).substring(0,10),
+                newFilename = filename.substring(0,filename.lastIndexOf('.'))
+                    + '_' + hash + filename.substring(filename.lastIndexOf('.')),
+                newPath = paths.build+newFilename;
+            fs.renameSync(path, newPath);
+            return newFilename;
+        }
+        // If file did not exist, return original filename
+        return filename;
+    }
+
+    var manifest = {
+        vendorCss: renameFile('styles/vendor.css'),
+        appCss: renameFile('styles/app.css'),
+        vendorJs: renameFile('vendor.js'),
+        appJs: renameFile('app.js')
+    };
+
+    return gulp.src(paths.indexHtml)
+        .pipe(gulpTemplate(manifest))
+        .pipe(gulp.dest(paths.build));
+});
+
 
 // Watch for file changes and execute appropriate tasks
 gulp.task('watch', function(){
@@ -107,7 +127,7 @@ gulp.task('serve', ['build'], function() {
 
 
 // Build application
-gulp.task('build', ['scripts-vendor', 'scripts-app', 'styles-app', 'index']);
+gulp.task('build', ['index']);
 
 // Gulp default task
 gulp.task('default', ['serve', 'watch']);
