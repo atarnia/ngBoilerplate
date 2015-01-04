@@ -8,8 +8,17 @@ var paths = {
         // Specify minified versions of vendor scripts
         'bower_modules/jquery/dist/jquery.min.js',
         'bower_modules/lodash/dist/lodash.min.js',
+        'bower_modules/bootstrap/dist/js/bootstrap.min.js',
         'bower_modules/angular/angular.min.js',
         'bower_modules/angular-ui-router/release/angular-ui-router.min.js',
+        'bower_modules/angular-resource/angular-resource.min.js',
+        'bower_modules/angular-cookies/angular-cookies.min.js',
+    ],
+    vendorStyles: [
+        'bower_modules/bootstrap/dist/css/bootstrap.min.css',
+    ],
+    vendorFonts: [
+        'bower_modules/bootstrap/dist/fonts/**',
     ],
     indexHtml: 'app/index.html',
     tmp:       'tmp/',
@@ -102,8 +111,23 @@ gulp.task('styles-app', function () {
 });
 
 
+// Concatenate all Vendor styles
+gulp.task('styles-vendor', function () {
+    gulp.src(paths.vendorStyles)
+        .pipe(concat('styles/vendor.css'))
+        .pipe(gulp.dest(paths.build));
+});
+
+
+// Copy fonts to the build directory
+gulp.task('fonts', function () {
+    gulp.src(paths.vendorFonts)
+        .pipe(gulp.dest(paths.build + 'fonts'));
+});
+
+
 // Create index.html bootstrap file
-gulp.task('index', ['scripts-vendor', 'scripts-app', 'styles-app'], function() {
+gulp.task('index', ['scripts-vendor', 'scripts-app', 'styles-app', 'styles-vendor', 'fonts'], function() {
     function renameFile(filename) {
         var path = paths.build+filename;
         if (fs.existsSync(path)) {
@@ -156,7 +180,7 @@ gulp.task('serve', ['build'], function() {
             port: 4200,
             livereload: true,
             //open: true,
-            proxies: []
+            proxies: proxies
         }));
 });
 
