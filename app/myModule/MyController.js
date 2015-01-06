@@ -1,13 +1,12 @@
-angular.module('myModule').controller('MyController', ['$scope', '$stateParams', function ($scope, $stateParams) {
+angular.module('myModule').controller('MyController', ['$scope', '$stateParams', 'pageTitleService', MyController]);
 
-        $scope.hello = 'Hello World!';
-        $scope.params = $stateParams;
+function MyController($scope, $stateParams, pageTitleService) {
 
-        if ($stateParams.name) {
-                $scope.hello = 'Hello ' + $stateParams.name + '!';
-        }
+    $scope.hello = 'Hello World!';
+    $scope.params = $stateParams;
 
-
-}]);
-
-
+    if ($stateParams.name) {
+        $scope.hello = 'Hello ' + $stateParams.name + '!';
+        pageTitleService.setTitle($scope.hello);
+    }
+}
