@@ -5,9 +5,9 @@ var paths = {
     appTemplates:  ['app/**/*.tpl.html'],
     appStyles:  ['app/styles/**/*.scss'],
 
-    vendorScripts: vendor.scripts,
-    vendorStyles: vendor.styles,
-    vendorFonts: vendor.fonts,
+    vendorScripts: vendor.scripts || [],
+    vendorStyles: vendor.styles || [],
+    vendorFonts: vendor.fonts || [],
 
     indexHtml: 'app/index.html',
     tmp:       'tmp/',
@@ -47,6 +47,11 @@ chalk.green('sourceUrl:destinationUrl') + '.\nThe proxy option may be repeated m
 stdout.write(chalk.green('Example usage:\n'))
 stdout.write('$ gulp --production --proxy /api:http://127.0.0.1:8000/api ' +
 '--proxy /static:http://127.0.0.1:8000/static\n\n');
+
+if(!paths.vendorScripts.length) {
+    stdout.write(chalk.yellow('Notice: Your vendor.json manifest seems to have no paths in the "scripts" array.\n'));
+}
+
 
 // ** TASKS **
 // Clean the build and temp directories
