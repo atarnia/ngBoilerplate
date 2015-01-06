@@ -1,6 +1,7 @@
-angular.module('myModule').controller('MyController', ['$scope', '$stateParams', 'pageTitleService', MyController]);
+angular.module('myModule').controller('MyController', ['$scope', '$stateParams',
+    'pageTitleService', 'currentUser', MyController]);
 
-function MyController($scope, $stateParams, pageTitleService) {
+function MyController($scope, $stateParams, pageTitleService, currentUser) {
 
     $scope.hello = 'Hello World!';
     $scope.params = $stateParams;
@@ -9,4 +10,9 @@ function MyController($scope, $stateParams, pageTitleService) {
         $scope.hello = 'Hello ' + $stateParams.name + '!';
         pageTitleService.setTitle($scope.hello);
     }
+
+    currentUser.get().then(function(user){
+        $scope.user = user;
+    });
+
 }

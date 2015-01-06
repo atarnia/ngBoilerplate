@@ -1,2 +1,2 @@
-angular.module('myModule', ['templates']);
+angular.module('myModule', ['templates', 'Atarnia.utils', 'Atarnia.auth']);
 
