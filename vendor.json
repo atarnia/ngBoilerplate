@@ -1,0 +1,19 @@
+{
+  "__comment__": "Please use minified versions of vendor scripts.",
+  "__comment__": "Paths may include /**/*.ext notation.",
+  "scripts": [
+        "bower_modules/jquery/dist/jquery.min.js",
+        "bower_modules/lodash/dist/lodash.min.js",
+        "bower_modules/bootstrap/dist/js/bootstrap.min.js",
+        "bower_modules/angular/angular.min.js",
+        "bower_modules/angular-ui-router/release/angular-ui-router.min.js",
+        "bower_modules/angular-resource/angular-resource.min.js",
+        "bower_modules/angular-cookies/angular-cookies.min.js"
+    ],
+    "styles": [
+        "bower_modules/bootstrap/dist/css/bootstrap.min.css"
+    ],
+    "fonts": [
+        "bower_modules/bootstrap/dist/fonts/**"
+    ]
+}

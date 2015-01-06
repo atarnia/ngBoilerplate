@@ -1,25 +1,14 @@
-// Application and vendor paths
+// Load vendor manifest, set paths to application sources and vendor assets
+var vendor = require('./vendor.json');
 var paths = {
     appScripts:    ['app/app.js', 'app/**/*.js'],
     appTemplates:  ['app/**/*.tpl.html'],
     appStyles:  ['app/styles/**/*.scss'],
 
-    vendorScripts: [
-        // Specify minified versions of vendor scripts
-        'bower_modules/jquery/dist/jquery.min.js',
-        'bower_modules/lodash/dist/lodash.min.js',
-        'bower_modules/bootstrap/dist/js/bootstrap.min.js',
-        'bower_modules/angular/angular.min.js',
-        'bower_modules/angular-ui-router/release/angular-ui-router.min.js',
-        'bower_modules/angular-resource/angular-resource.min.js',
-        'bower_modules/angular-cookies/angular-cookies.min.js',
-    ],
-    vendorStyles: [
-        'bower_modules/bootstrap/dist/css/bootstrap.min.css',
-    ],
-    vendorFonts: [
-        'bower_modules/bootstrap/dist/fonts/**',
-    ],
+    vendorScripts: vendor.scripts,
+    vendorStyles: vendor.styles,
+    vendorFonts: vendor.fonts,
+
     indexHtml: 'app/index.html',
     tmp:       'tmp/',
     build:     'build/',
