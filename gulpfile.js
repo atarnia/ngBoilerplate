@@ -20,6 +20,7 @@ var gulp = require('gulp'),
     chalk = require('chalk'),
     argv = require('yargs').argv,
     gulpIf = require('gulp-if'),
+    runSequence = require('run-sequence'),
     fs = require('fs'),
     path = require('path'),
     del = require('del'),
@@ -121,7 +122,7 @@ gulp.task('fonts', function () {
 
 
 // Create index.html bootstrap file
-gulp.task('index', ['scripts-vendor', 'scripts-app', 'styles-app', 'styles-vendor', 'fonts'], function() {
+gulp.task('index', [], function() {
     function renameFile(filename) {
         var path = paths.build+filename;
         if (fs.existsSync(path)) {
@@ -137,11 +138,21 @@ gulp.task('index', ['scripts-vendor', 'scripts-app', 'styles-app', 'styles-vendo
     }
 
     var manifest = {
-        vendorCss: renameFile('styles/vendor.css'),
-        appCss: renameFile('styles/app.css'),
-        vendorJs: renameFile('vendor.js'),
-        appJs: renameFile('app.js')
-    };
+            vendorCss: 'styles/vendor.css',
+            appCss: 'styles/app.css',
+            vendorJs: 'vendor.js',
+            appJs: 'app.js'
+        };
+
+    if(argv.production) {
+        // In production mode, rename files using their md5 hashes
+        manifest = {
+            vendorCss: renameFile('styles/vendor.css'),
+            appCss: renameFile('styles/app.css'),
+            vendorJs: renameFile('vendor.js'),
+            appJs: renameFile('app.js')
+        };
+    }
 
     return gulp.src(paths.indexHtml)
         .pipe(gulpTemplate(manifest))
@@ -151,9 +162,18 @@ gulp.task('index', ['scripts-vendor', 'scripts-app', 'styles-app', 'styles-vendo
 
 // Watch for file changes and execute appropriate tasks
 gulp.task('watch', function(){
-    gulp.watch([].concat(paths.appScripts, paths.appTemplates), ['scripts-app']);
-    gulp.watch([].concat(paths.vendorScripts), ['scripts-vendor']);
-    gulp.watch([].concat(paths.appStyles), ['styles-app']);
+    if(argv.production) {
+        // In production mode, a full rebuild is required
+        gulp.watch([].concat(paths.appScripts, paths.appTemplates), ['build']);
+        gulp.watch([].concat(paths.vendorScripts), ['build']);
+        gulp.watch([].concat(paths.appStyles), ['build']);
+
+    }
+    else {
+        gulp.watch([].concat(paths.appScripts, paths.appTemplates), ['scripts-app']);
+        gulp.watch([].concat(paths.vendorScripts), ['scripts-vendor']);
+        gulp.watch([].concat(paths.appStyles), ['styles-app']);
+    }
 });
 
 
@@ -164,7 +184,7 @@ gulp.task('serve', ['build'], function() {
         [].concat(argv.proxy).forEach(function(proxy){
             var source = proxy.substring(0, proxy.indexOf(':')),
                 target = proxy.substring(proxy.indexOf(':')+1);
-            stdout.write(chalk.bold('Setting up proxy: ' + source + ' => ' + target +  '\n'))
+            stdout.write(chalk.bold('Setting up proxy: ' + source + ' => ' + target +  '\n'));
             proxies.push({source: source, target: target });
         })
     }
@@ -180,7 +200,12 @@ gulp.task('serve', ['build'], function() {
 
 
 // Build application
-gulp.task('build', ['index']);
+gulp.task('build', function(callback) {
+  runSequence('clean',
+              ['scripts-vendor', 'scripts-app', 'styles-app', 'styles-vendor', 'fonts'],
+              'index',
+              callback);
+});
 
 
 // Gulp default task
