@@ -16,17 +16,18 @@ function currentUserService($q, $injector, $http){
     console.log('apiUrl', apiUrl);
 
     // Define anonymous user
-    var anonymous = {
+    var genericUser = {
         name: 'Anonymous',
         isAuthenticated: false,
         permissions: []
     };
 
-    // Create an application user object
-    var user = anonymous;
-    user.hasPermission = function(permission) {
+    genericUser.hasPermission = function(permission) {
         return user.permissions.indexOf(permission) > -1;
     };
+
+    // Create an application user object
+    var user = angular.copy(genericUser);
 
     // Load the current user when the service is instantiated
     loadUser();
@@ -74,7 +75,9 @@ function currentUserService($q, $injector, $http){
         userDeferred = $q.defer();
         $http.delete(apiUrl).
             success(function(data, status, headers, config) {
-                user = anonymous;
+                user = angular.copy(genericUser);
+                console.log('successfully logging out, new user is: ', user);
+
                 userDeferred.resolve(user);
             }).
             error(function(data, status, headers, config) {
