@@ -1,18 +1,11 @@
-angular.module('Atarnia.auth').factory('currentUser', ['$q', '$injector', '$http', currentUserService]);
+angular.module('Atarnia.auth').factory('currentUser', ['$q', 'apiAdapter', '$http', currentUserService]);
 
-function currentUserService($q, $injector, $http){
+function currentUserService($q, apiAdapter, $http){
     console.info('Initializing currentUserService');
 
     var userDeferred = $q.defer(),
-        apiUrl = '/api/user';
+        apiUrl = apiAdapter.getApiUrl();
 
-    try {
-        // Check if the application defines an adapter and the adapter defines a getApiUrl method
-        apiUrl = $injector.get('adapter').adapter.getApiUrl();
-    }
-    catch (e) {
-        // Fail silently
-    }
     console.log('apiUrl', apiUrl);
 
     // Define anonymous user

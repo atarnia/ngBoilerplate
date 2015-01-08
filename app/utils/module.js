@@ -1,1 +1,1 @@
-angular.module('Atarnia.utils', []);
+angular.module('Atarnia.utils', ['ngCookies']);

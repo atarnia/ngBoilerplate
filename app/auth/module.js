@@ -1,1 +1,1 @@
-angular.module('Atarnia.auth', []);
+angular.module('Atarnia.auth', ['Atarnia.utils']);
