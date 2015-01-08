@@ -17,6 +17,14 @@ angular.module('myApp').factory('adapter', function(){
 
 });
 
-angular.module('myApp').run(['$http','$cookies', function($http, $cookies) {
-    $http.defaults.headers.common['X-CSRFToken'] = $cookies.csrftoken;
+angular.module('myApp').config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.interceptors.push(['$cookies', function($cookies) {
+        return {
+            'request': function(config) {
+                config.headers['X-CSRFToken'] = $cookies.csrftoken;
+                return config;
+            }
+        };
+    }]);
 }]);
+
