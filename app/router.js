@@ -17,6 +17,12 @@ angular.module('myApp').config(['$stateProvider', '$urlRouterProvider',
             url: '/hello/:name?param&param2',
             templateUrl: 'myModule/template.tpl.html',
             controller: 'MyController'
+        })
+        .state('userLogin', {
+            title: 'Log in',
+            url: '/user/login',
+            templateUrl: 'atarnia/auth/login.tpl.html',
+            controller: '_LoginController'
         });
 
 }]);
