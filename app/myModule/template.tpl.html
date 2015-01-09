@@ -5,5 +5,11 @@
 <p>params: {{params}}</p>
 
 <div ng-if="user.isAuthenticated">
-    <p>current user: {{user.username}}</p>
+    <p>user: {{user.username}}
+        <span ng-if="user.hasPermission('auth.add_permission')">has permission</span>
+    </p>
 </div>
+
+
+
+

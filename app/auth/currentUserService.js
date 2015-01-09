@@ -1,10 +1,10 @@
-angular.module('Atarnia.auth').factory('currentUser', ['$q', 'apiAdapter', '$http', currentUserService]);
+angular.module('Atarnia.auth').factory('currentUser', ['$q', 'apiAdapter', '$http', _appUser]);
 
-function currentUserService($q, apiAdapter, $http){
+function _appUser($q, apiAdapter, $http){
     console.info('Initializing currentUserService');
 
     var userDeferred = $q.defer(),
-        apiUrl = apiAdapter.getApiUrl();
+        apiUrl = apiAdapter.getApiUrl() + 'user/';
 
     console.log('apiUrl', apiUrl);
 
@@ -68,7 +68,9 @@ function currentUserService($q, apiAdapter, $http){
         userDeferred = $q.defer();
         $http.delete(apiUrl).
             success(function(data, status, headers, config) {
-                user = angular.copy(genericUser);
+                for (var field in user) delete user[field];
+                user = angular.extend(user, genericUser);
+                user.username = 'like this';
                 console.log('successfully logging out, new user is: ', user);
 
                 userDeferred.resolve(user);

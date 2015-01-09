@@ -1,10 +1,11 @@
-angular.module('Atarnia.utils').provider( 'apiAdapter', apiAdapter);
+angular.module('Atarnia.utils').provider('apiAdapter', apiAdapter);
 
 function apiAdapter() {
 
     var apiAdapterProvider = {
 
         server : {
+            protocol: '',
             host : '',
             port : '',
             namespace : '/api/'
@@ -14,8 +15,10 @@ function apiAdapter() {
 
             var apiAdapter = {
                 getApiUrl: function(){
-                    var url = apiAdapterProvider.server.host;
-                    url = apiAdapterProvider.server.port ? url + ':' + apiServer.port : url;
+                    var url = '';
+                    url += apiAdapterProvider.server.protocol ? apiAdapterProvider.server.protocol + '://' : '';
+                    url += apiAdapterProvider.server.host;
+                    url += apiAdapterProvider.server.port ? ':' + apiAdapterProvider.server.port : '';
                     url += apiAdapterProvider.server.namespace;
                     return url;
                 }
