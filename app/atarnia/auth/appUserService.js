@@ -1,10 +1,10 @@
-angular.module('Atarnia.auth').factory('currentUser', ['$q', 'apiAdapter', '$http', _appUser]);
+angular.module('Atarnia.auth').factory('_appUser', ['$q', '_apiAdapter', '$http', _appUser]);
 
-function _appUser($q, apiAdapter, $http){
+function _appUser($q, _apiAdapter, $http){
     console.info('Initializing currentUserService');
 
     var userDeferred = $q.defer(),
-        apiUrl = apiAdapter.getApiUrl() + 'user/';
+        apiUrl = _apiAdapter.getApiUrl() + 'user/';
 
     console.log('apiUrl', apiUrl);
 

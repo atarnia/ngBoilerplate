@@ -1,4 +1,7 @@
 angular.module('myApp', ['ui.router', 'myModule', 'templates', 'Atarnia.utils'])
-.config(["apiAdapterProvider", function (apiAdapterProvider) {
-        apiAdapterProvider.server.namespace = '/api/';
+
+    .config(["atarniaSettingsProvider", function (atarnia) {
+        atarnia.apiAdapter.namespace = '/api/';
     }]);
+
+

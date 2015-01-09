@@ -21,9 +21,9 @@ angular.module('myApp').config(['$stateProvider', '$urlRouterProvider',
 
 }]);
 
-angular.module('myApp').run(['$rootScope', 'pageTitleService', function($rootScope, pageTitleService) {
-    pageTitleService.setTitle('Welcome!');
+angular.module('myApp').run(['$rootScope', '_pageTitle', function($rootScope, _pageTitle) {
+    _pageTitle.set('Welcome!');
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-        pageTitleService.setTitle(toState.title);
+        _pageTitle.set(toState.title);
     });
 }]);
