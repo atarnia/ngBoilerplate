@@ -1,6 +1,6 @@
-angular.module('myModule').controller('_LoginController', ['$scope', '_appUser', LoginController]);
+angular.module('myModule').controller('_LoginController', ['$scope', '$location', '_appUser', LoginController]);
 
-function LoginController($scope, _appUser) {
+function LoginController($scope, $location, _appUser) {
 
     $scope.username = null;
     $scope.password = null;
@@ -16,10 +16,14 @@ function LoginController($scope, _appUser) {
     $scope.login = function() {
         console.log('login action called');
         _appUser.login($scope.username, $scope.password).then(
-            function(value){
+            function(user){
                 $scope.username = null;
                 $scope.password = null;
                 $scope.error = null;
+
+                if (user.homePage) {
+                    $location.path(user.homePage);
+                }
             },
             function(reason){
                 $scope.error = reason;
