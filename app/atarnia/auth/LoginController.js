@@ -28,7 +28,7 @@ function LoginController($scope, $location, _appUser) {
             function(reason){
                 $scope.error = reason;
             }
-        )
+        );
     };
 
     $scope.logout = function() {
@@ -40,7 +40,7 @@ function LoginController($scope, $location, _appUser) {
             function(reason){
                 $scope.error = reason;
             }
-        )
+        );
     };
 
 

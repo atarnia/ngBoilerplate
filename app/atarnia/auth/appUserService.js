@@ -50,7 +50,6 @@ function _appUser($q, _apiAdapter, $http){
     }
 
     function login(username, password) {
-        console.log('calling Login');
         userDeferred = $q.defer();
         $http.post(apiUrl, {username: username, password: password}).
             success(function(data, status, headers, config) {
@@ -64,15 +63,13 @@ function _appUser($q, _apiAdapter, $http){
     }
 
     function logout() {
-        console.log('calling Logout');
         userDeferred = $q.defer();
         $http.delete(apiUrl).
             success(function(data, status, headers, config) {
-                for (var field in user) delete user[field];
+                // Clear user data
+                for (var field in user) { if (user.hasOwnProperty(field)) { delete user[field]; } }
+                // Apply data from a generic user object
                 user = angular.extend(user, genericUser);
-                user.username = 'like this';
-                console.log('successfully logging out, new user is: ', user);
-
                 userDeferred.resolve(user);
             }).
             error(function(data, status, headers, config) {
