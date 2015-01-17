@@ -8,7 +8,8 @@
         "bower_modules/angular/angular.min.js",
         "bower_modules/angular-ui-router/release/angular-ui-router.min.js",
         "bower_modules/angular-resource/angular-resource.min.js",
-        "bower_modules/angular-cookies/angular-cookies.min.js"
+        "bower_modules/angular-cookies/angular-cookies.min.js",
+        "bower_modules/ng-file-upload/angular-file-upload-all.js"
     ],
     "styles": [
         "bower_modules/bootstrap/dist/css/bootstrap.min.css"

@@ -1,0 +1,23 @@
+<h4>Upload a file</h4>
+
+<p>yourFile:{{yourFile}}</p>
+<p>yourToken:{{yourToken}}</p>
+
+<button ng-file-select
+        ng-model="yourFile"
+        ng-multiple="false"
+        ng-accept="'image/*,application/pdf'"
+        tabindex="0">Select file</button><br/>
+
+<p>yourOtherFile:{{yourOtherFile}}</p>
+<p>yourOtherToken:{{yourOtherToken}}</p>
+
+<button ng-file-select
+        ng-model="yourOtherFile"
+        ng-multiple="false"
+        ng-accept="'image/*,application/pdf'"
+        tabindex="0">Select file</button><br/>
+
+<p>uploadProgress:{{uploadProgress}}</p>
+
+<input type="button" ng-disabled="!formIsValid()" value="Submit form">

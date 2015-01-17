@@ -1,1 +1,1 @@
-angular.module('Atarnia.utils', ['ngCookies']);
+angular.module('Atarnia.utils', ['ngCookies', 'angularFileUpload']);

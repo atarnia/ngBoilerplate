@@ -1,2 +1,2 @@
-angular.module('myModule', ['templates', 'Atarnia.utils', 'Atarnia.auth']);
+angular.module('myModule', ['templates', 'Atarnia.utils', 'Atarnia.auth', 'angularFileUpload']);
 

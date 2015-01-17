@@ -23,6 +23,11 @@ angular.module('myApp').config(['$stateProvider', '$urlRouterProvider',
             url: '/user/login',
             templateUrl: 'atarnia/auth/login.tpl.html',
             controller: '_LoginController'
+        })
+        .state('fileUploadTest', {
+            url: '/upload',
+            templateUrl: 'myModule/upload.tpl.html',
+            controller: 'UploadController'
         });
 
 }]);
