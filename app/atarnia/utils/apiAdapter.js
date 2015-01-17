@@ -2,8 +2,6 @@ angular.module('Atarnia.utils').factory('_apiAdapter', ['atarniaSettings', _apiA
 
 function _apiAdapter(settings) {
 
-    console.log('settings', settings);
-
     return {
         getApiUrl: function(){
             var url = '';
