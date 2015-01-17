@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title ng-bind="pageTitle ? 'myApp &mdash; ' + pageTitle : 'myApp'">myApp</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title ng-bind="pageTitle ? 'myApp &mdash; ' + pageTitle : 'myApp'">myApp</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="<%= vendorCss %>" type="text/css" media="screen" charset="utf-8">
-    <link rel="stylesheet" href="<%= appCss %>" type="text/css" media="screen" charset="utf-8">
-    <script src="<%= vendorJs %>" type="text/javascript" charset="utf-8"></script>
-    <script src="<%= appJs %>" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" href="<%= vendorCss %>" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="<%= appCss %>" type="text/css" media="screen" charset="utf-8">
+  <script src="<%= vendorJs %>" type="text/javascript" charset="utf-8"></script>
+  <script src="<%= appJs %>" type="text/javascript" charset="utf-8"></script>
 
-  </head>
-  <body>
-      <p>Nothing here {{'yet' + '!'}}</p>
+</head>
+<body>
 
-      <div ui-view></div>
+  <h1>Welcome to your {{'new App'}}</h1>
 
-  </body>
+  <div ui-view></div>
+
+
+  <footer>
+    <div class="well well-sm">Powered by Atarnia ngBoilerplate.</div>
+  </footer>
+
+</body>
 </html>
